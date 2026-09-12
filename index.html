@@ -2122,7 +2122,11 @@ analyzeBtn.addEventListener('click', async () => {
   try {
     const res = await fetch(EDGE_FUNCTION_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'apikey': SUPABASE_ANON_KEY
+      },
       body: JSON.stringify({ image: uploadedImageBase64, mimeType: uploadedImageMime })
     });
     const data = await res.json();
@@ -2148,10 +2152,24 @@ fileInput.addEventListener('change', (e) => {
   uploadedImageMime = file.type || 'image/jpeg';
   const reader = new FileReader();
   reader.onload = () => {
-    previewImg.src = reader.result;
-    uploadedImageBase64 = reader.result.split(',')[1];
-    dropZone.classList.add('has-image');
-    analyzeBtn.classList.add('ready');
+    const dataUrl = reader.result;
+    const probeImg = new Image();
+    probeImg.onload = () => {
+      const tooSmallFile = file.size < 20000; // under ~20KB
+      const tooSmallDims = probeImg.naturalWidth < 250 || probeImg.naturalHeight < 250;
+      if (tooSmallFile || tooSmallDims) {
+        const proceed = confirm('الصورة يمكن تكون غير واضحة بما يكفي لتحليل دقيق. تبي تكمل على أي حال؟');
+        if (!proceed) {
+          fileInput.value = '';
+          return;
+        }
+      }
+      previewImg.src = dataUrl;
+      uploadedImageBase64 = dataUrl.split(',')[1];
+      dropZone.classList.add('has-image');
+      analyzeBtn.classList.add('ready');
+    };
+    probeImg.src = dataUrl;
   };
   reader.readAsDataURL(file);
 });
@@ -2189,74 +2207,71 @@ fileInput.addEventListener('change', (e) => {
     <div class="tier-tab" data-tier="luxury">فاخر</div>
   </div>
 
-  <div class="products" id="products"></div>
-
-  <div class="total-bar">
+  <div class="total-bar" style="margin-bottom:14px;">
     <div>
-      <div class="label">إجمالي الطقم</div>
-      <div class="amount"><span id="total">0</span> <span>ر.س</span></div>
+      <div class="label">ملاحظة</div>
+      <div style="font-size:12px; color:var(--text-muted); max-width:220px;">هذي روابط بحث حقيقية بكل متجر — الأسعار تتحدد بصفحة المتجر نفسها</div>
     </div>
-    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.6">
-      <path d="M6 2l1.5 4h9L18 2"></path>
-      <path d="M4 8h16l-1.5 13a2 2 0 0 1-2 2H7.5a2 2 0 0 1-2-2z"></path>
-    </svg>
   </div>
 
   <div class="actions">
-    <button class="btn btn-primary" onclick="showScreen('wardrobe')">احفظ الطقم بخزانتي</button>
+    <button class="btn btn-primary" id="saveOutfitBtn">احفظ هذا الطقم بسجل البحث</button>
     <button class="btn btn-secondary">شارك الإطلالة</button>
   </div>
 
 </div>
 
 <script>
-const data = {
-  economic: [
-    {name:"تيشيرت أبيض أساسي", store:"SHEIN", price:39},
-    {name:"جينز أزرق غامق", store:"Fordeal", price:79},
-    {name:"كاب أسود سادة", store:"نمشي", price:35},
-  ],
-  medium: [
-    {name:"تيشيرت أبيض أساسي", store:"H&M", price:89},
-    {name:"جينز أزرق غامق", store:"نمشي", price:169},
-    {name:"كاب أسود سادة", store:"6thstreet", price:75},
-  ],
-  luxury: [
-    {name:"تيشيرت أبيض أساسي", store:"Zara", price:149},
-    {name:"جينز أزرق غامق", store:"Ounass", price:399},
-    {name:"كاب أسود سادة", store:"Level Shoes", price:210},
-  ],
+const storesByTier = {
+  economic: ['shein.com', 'fordeal.com', 'namshi.com'],
+  medium: ['namshi.com', '6thstreet.com', 'centrepointstores.com'],
+  luxury: ['ounass.sa', 'levelshoes.com'],
+};
+const storeLabels = {
+  'shein.com': 'SHEIN', 'fordeal.com': 'Fordeal', 'namshi.com': 'نمشي',
+  '6thstreet.com': '6thstreet', 'centrepointstores.com': 'Centrepoint',
+  'ounass.sa': 'Ounass', 'levelshoes.com': 'Level Shoes',
 };
 
-const icons = [
-  // white t-shirt, flat product-photo style
-  '<path d="M8.5 3L4 6.5 5.8 10 8 8.3V21h8V8.3l2.2 1.7L20 6.5 15.5 3 12.7 5h-1.4z" fill="#FAFAF7" stroke="#B8B29E" stroke-width="0.6"/>',
-  // dark denim jeans
-  '<path d="M6.5 3h11l1 18h-5l-.8-9-.7 9h-5z" fill="#33507A"/><path d="M6.5 3h11l.3 4h-11.6z" fill="#28405F"/>',
-  // black cap
-  '<path d="M4 14.5A8 8 0 0 1 20 14.5z" fill="#1C1A16"/><rect x="2.5" y="13.5" width="8.5" height="2.2" rx="1.1" fill="#1C1A16"/><circle cx="12" cy="9" r="1" fill="#C9A227"/>',
-];
+function parseItemsFromAnalysis(text){
+  if (!text) return ['تيشيرت', 'جينز', 'كاب'];
+  return text.split('\n')
+    .map(l => l.replace(/^[•\-\*\s]+/, '').trim())
+    .filter(l => l.length > 1);
+}
+
+function buildSearchLink(store, itemName){
+  const q = encodeURIComponent('site:' + store + ' ' + itemName);
+  return 'https://www.google.com/search?q=' + q;
+}
+
+const genericIcon = '<circle cx="12" cy="12" r="9"></circle><path d="M8 12h8M12 8v8"></path>';
 
 function render(tier){
   const list = document.getElementById('products');
   list.innerHTML = '';
-  let total = 0;
-  data[tier].forEach((item, i) => {
-    total += item.price;
-    const card = document.createElement('div');
+  const items = parseItemsFromAnalysis(lastAnalysisResult);
+  const stores = storesByTier[tier];
+  items.forEach((itemName, i) => {
+    const store = stores[i % stores.length];
+    const link = buildSearchLink(store, itemName);
+    const card = document.createElement('a');
+    card.href = link;
+    card.target = '_blank';
+    card.rel = 'noopener';
+    card.style.textDecoration = 'none';
+    card.style.color = 'inherit';
     card.className = 'product-card';
     card.innerHTML = `
-      <div class="product-img"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">${icons[i]}</svg></div>
+      <div class="product-img"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">${genericIcon}</svg></div>
       <div class="product-info">
-        <h3>${item.name}</h3>
-        <div class="store">${item.store}</div>
+        <h3 style="font-size:13px;">${itemName}</h3>
+        <div class="store">ابحث في ${storeLabels[store]}</div>
       </div>
-      <div class="product-price">${item.price} ر.س</div>
       <div class="product-go"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></div>
     `;
     list.appendChild(card);
   });
-  document.getElementById('total').textContent = total;
 }
 
 document.querySelectorAll('.tier-tab').forEach(tab => {
@@ -2268,6 +2283,30 @@ document.querySelectorAll('.tier-tab').forEach(tab => {
 });
 
 render('medium');
+
+document.getElementById('saveOutfitBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('saveOutfitBtn');
+  const { data: userData } = await supabaseClient.auth.getUser();
+  const user = userData ? userData.user : null;
+  if (!user) { alert('سجّل دخولك أول'); return; }
+  const activeTier = document.querySelector('.tier-tab.active').dataset.tier;
+  btn.disabled = true;
+  btn.textContent = 'جاري الحفظ...';
+  const { error } = await supabaseClient.from('saved_looks').insert({
+    user_id: user.id,
+    description: lastAnalysisResult,
+    budget_tier: activeTier
+  });
+  btn.disabled = false;
+  btn.textContent = 'احفظ هذا الطقم بسجل البحث';
+  if (error) {
+    alert('صار خطأ: ' + error.message);
+  } else {
+    alert('تم حفظ الطقم بمحفوظاتك ✓');
+    showScreen('wardrobe');
+    switchWardrobeTab('saved');
+  }
+});
 </script>
 
 </div>
@@ -2289,7 +2328,12 @@ render('medium');
     <div class="count-badge">6 قطع</div>
   </div>
 
-  <div class="grid">
+  <div class="tier-tabs" style="margin-bottom:20px;">
+    <div class="tier-tab active" id="tabOwned" onclick="switchWardrobeTab('owned')">خزانتي</div>
+    <div class="tier-tab" id="tabSaved" onclick="switchWardrobeTab('saved')">سجل البحث</div>
+  </div>
+
+  <div id="ownedGrid" class="grid">
     <div class="item-cell">
       <svg viewBox="0 0 24 24"><path d="M8.5 3L4 6.5 5.8 10 8 8.3V21h8V8.3l2.2 1.7L20 6.5 15.5 3 12.7 5h-1.4z" fill="#FAFAF7" stroke="#B8B29E" stroke-width="0.6"/></svg>
       <div class="cat-tag">تيشيرت</div>
@@ -2317,6 +2361,10 @@ render('medium');
       <span>أضف قطعة</span>
     </div>
   </div>
+
+  <p style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:10px;">هذي قطع تجريبية للعرض — إضافة قطعك الحقيقية قريباً</p>
+
+  <div id="savedLooksList" style="display:none; flex-direction:column; gap:12px;"></div>
 
 </div>
 
@@ -2353,6 +2401,99 @@ document.querySelectorAll('.occasion-chip').forEach(chip => {
     chip.classList.add('active');
   });
 });
+
+function switchWardrobeTab(tab){
+  const ownedGrid = document.getElementById('ownedGrid');
+  const savedList = document.getElementById('savedLooksList');
+  const tabOwned = document.getElementById('tabOwned');
+  const tabSaved = document.getElementById('tabSaved');
+  if (tab === 'saved') {
+    ownedGrid.style.display = 'none';
+    savedList.style.display = 'flex';
+    tabSaved.classList.add('active');
+    tabOwned.classList.remove('active');
+    loadWardrobeData();
+  } else {
+    ownedGrid.style.display = 'grid';
+    savedList.style.display = 'none';
+    tabOwned.classList.add('active');
+    tabSaved.classList.remove('active');
+  }
+}
+
+async function loadWardrobeData(){
+  const savedList = document.getElementById('savedLooksList');
+  if (!savedList || savedList.style.display === 'none') return;
+  const { data: userData } = await supabaseClient.auth.getUser();
+  const user = userData ? userData.user : null;
+  if (!user) return;
+
+  const { data: looks, error } = await supabaseClient
+    .from('saved_looks')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  savedList.innerHTML = '';
+  if (error || !looks || looks.length === 0) {
+    savedList.innerHTML = '<p style="color:var(--text-muted); font-size:13px; text-align:center; padding:20px 0;">ما فيه أطقم محفوظة بعد — احفظ طقم من شاشة النتائج</p>';
+    return;
+  }
+  const tierLabels = { economic: 'اقتصادي', medium: 'متوسط', luxury: 'فاخر' };
+  looks.forEach(look => {
+    const card = document.createElement('div');
+    card.className = 'best-card';
+    const uid = 'hist-' + look.id;
+    card.innerHTML = `
+      <p style="font-size:13px; color:var(--text); white-space:pre-line; line-height:1.8; margin-bottom:14px;">${look.description}</p>
+      <div class="tier-tabs" style="margin-bottom:12px;">
+        <div class="tier-tab hist-tier active" data-hist="${uid}" data-tier="economic">اقتصادي</div>
+        <div class="tier-tab hist-tier" data-hist="${uid}" data-tier="medium">متوسط</div>
+        <div class="tier-tab hist-tier" data-hist="${uid}" data-tier="luxury">فاخر</div>
+      </div>
+      <div class="products" id="${uid}"></div>
+    `;
+    savedList.appendChild(card);
+    renderHistoryTier(uid, look.description, 'economic');
+  });
+
+  document.querySelectorAll('.hist-tier').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const uid = tab.dataset.hist;
+      document.querySelectorAll(`.hist-tier[data-hist="${uid}"]`).forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderHistoryTier(uid, tab.closest('.best-card').querySelector('p').textContent, tab.dataset.tier);
+    });
+  });
+}
+
+function renderHistoryTier(containerId, description, tier){
+  const list = document.getElementById(containerId);
+  if (!list) return;
+  list.innerHTML = '';
+  const items = parseItemsFromAnalysis(description);
+  const stores = storesByTier[tier];
+  items.forEach((itemName, i) => {
+    const store = stores[i % stores.length];
+    const link = buildSearchLink(store, itemName);
+    const card = document.createElement('a');
+    card.href = link;
+    card.target = '_blank';
+    card.rel = 'noopener';
+    card.style.textDecoration = 'none';
+    card.style.color = 'inherit';
+    card.className = 'product-card';
+    card.innerHTML = `
+      <div class="product-img"><svg viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">${genericIcon}</svg></div>
+      <div class="product-info">
+        <h3 style="font-size:13px;">${itemName}</h3>
+        <div class="store">ابحث في ${storeLabels[store]}</div>
+      </div>
+      <div class="product-go"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></div>
+    `;
+    list.appendChild(card);
+  });
+}
 </script>
 
 </div>
@@ -2804,13 +2945,23 @@ forgotLink.addEventListener('click', async (e) => {
 </script>
 
 <script>
-function showScreen(id){
+function showScreen(id, pushHistory){
   document.querySelectorAll('.app-screen').forEach(el => el.classList.remove('active-screen'));
   const target = document.getElementById('screen-' + id);
   if (target) target.classList.add('active-screen');
   window.scrollTo(0,0);
   if (id === 'account') loadProfileIntoAccountScreen();
+  if (id === 'wardrobe') loadWardrobeData();
+
+  if (pushHistory !== false) {
+    history.pushState({ screen: id }, '', '#' + id);
+  }
 }
+
+window.addEventListener('popstate', (e) => {
+  const screen = (e.state && e.state.screen) || 'login';
+  showScreen(screen, false);
+});
 
 async function loadProfileIntoAccountScreen(){
   const { data: userData } = await supabaseClient.auth.getUser();
@@ -2838,7 +2989,14 @@ async function loadProfileIntoAccountScreen(){
     if (genderEl) genderEl.textContent = profile.gender === 'female' ? 'نسائي' : 'رجالي';
   }
 }
-showScreen('login');
+(async () => {
+  const { data: sessionData } = await supabaseClient.auth.getSession();
+  if (sessionData && sessionData.session) {
+    await routeAfterLogin();
+  } else {
+    showScreen('login', false);
+  }
+})();
 </script>
 
 </body>
