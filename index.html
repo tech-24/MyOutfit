@@ -1660,8 +1660,15 @@ body{ zoom: 1.12; }
 
   <!-- Step 1: Country -->
   <div class="step active" data-step="1">
-    <h1>وين موقعك؟</h1>
-    <p class="sub">نعرض لك المتاجر المتوفرة والشحن حسب دولتك</p>
+    <h1>وش اسمك؟</h1>
+    <p class="sub">عشان نرحب فيك بالاسم الصح</p>
+    <div class="field" style="margin-bottom:28px;">
+      <label>الاسم</label>
+      <input class="text-input" id="nameInput" type="text" placeholder="اسمك الكامل" style="width:100%">
+    </div>
+
+    <h1 style="font-size:16px; margin-bottom:6px;">وين موقعك؟</h1>
+    <p class="sub" style="margin-bottom:16px;">نعرض لك المتاجر المتوفرة والشحن حسب دولتك</p>
     <div class="country-list">
       <div class="country-card">
         <div class="name">🇸🇦 السعودية</div>
@@ -1785,10 +1792,51 @@ function showStep(n){
   updateDots();
 }
 
-document.getElementById('nextBtn').addEventListener('click', () => {
+document.getElementById('nextBtn').addEventListener('click', async () => {
   if (current < total) { current++; showStep(current); }
-  else { location.href = 'index.html'; }
+  else {
+    const btn = document.getElementById('nextBtn');
+    btn.disabled = true;
+    btn.textContent = 'جاري الحفظ...';
+    await saveProfile();
+    btn.disabled = false;
+    btn.textContent = 'ابدأ التسوق';
+    showScreen('home');
+  }
 });
+
+async function saveProfile(){
+  const { data: userData } = await supabaseClient.auth.getUser();
+  const user = userData ? userData.user : null;
+  if (!user) return;
+
+  const genderCard = document.querySelector('.gender-card.selected');
+  const gender = genderCard ? genderCard.dataset.gender : null;
+
+  const heightVal = document.getElementById('heightInput').value;
+  const weightVal = document.getElementById('weightInput').value;
+
+  const topSizeEl = document.getElementById('topSizeChip');
+  const bottomSizeEl = document.getElementById('bottomSizeChip');
+  const shoeSizeEl = document.getElementById('shoeSizeChip');
+
+  const profile = {
+    id: user.id,
+    full_name: document.getElementById('nameInput').value.trim() || null,
+    gender: gender,
+    height_cm: heightVal ? parseInt(heightVal) : null,
+    weight_kg: weightVal ? parseInt(weightVal) : null,
+    top_size: topSizeEl ? topSizeEl.textContent : null,
+    bottom_size: bottomSizeEl ? bottomSizeEl.textContent : null,
+    shoe_size: shoeSizeEl ? shoeSizeEl.textContent : null,
+    country: 'SA'
+  };
+
+  const { error } = await supabaseClient.from('profiles').upsert(profile);
+  if (error) {
+    console.error('Profile save error:', error.message);
+  }
+}
 document.getElementById('backBtn').addEventListener('click', () => {
   if (current > 1) { current--; showStep(current); }
 });
@@ -2060,16 +2108,48 @@ const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 const previewImg = document.getElementById('previewImg');
 const analyzeBtn = document.getElementById('analyzeBtn');
-analyzeBtn.addEventListener('click', () => {
-  if (analyzeBtn.classList.contains('ready')) location.href = 'results.html';
+let uploadedImageBase64 = null;
+let uploadedImageMime = 'image/jpeg';
+let lastAnalysisResult = '';
+
+const EDGE_FUNCTION_URL = 'https://pzjsjloxvltkmczckobj.supabase.co/functions/v1/analyze-outfit';
+
+analyzeBtn.addEventListener('click', async () => {
+  if (!analyzeBtn.classList.contains('ready') || !uploadedImageBase64) return;
+  const originalText = analyzeBtn.textContent;
+  analyzeBtn.textContent = 'جاري التحليل...';
+  analyzeBtn.style.pointerEvents = 'none';
+  try {
+    const res = await fetch(EDGE_FUNCTION_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: uploadedImageBase64, mimeType: uploadedImageMime })
+    });
+    const data = await res.json();
+    if (data.error) {
+      alert('صار خطأ: ' + data.error);
+    } else {
+      lastAnalysisResult = data.result || '';
+      showScreen('results');
+      const resultEl = document.getElementById('analysisResult');
+      if (resultEl) resultEl.textContent = lastAnalysisResult;
+    }
+  } catch (err) {
+    alert('فشل الاتصال: ' + err.message);
+  } finally {
+    analyzeBtn.textContent = originalText;
+    analyzeBtn.style.pointerEvents = 'auto';
+  }
 });
 
 fileInput.addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
+  uploadedImageMime = file.type || 'image/jpeg';
   const reader = new FileReader();
   reader.onload = () => {
     previewImg.src = reader.result;
+    uploadedImageBase64 = reader.result.split(',')[1];
     dropZone.classList.add('has-image');
     analyzeBtn.classList.add('ready');
   };
@@ -2100,7 +2180,7 @@ fileInput.addEventListener('change', (e) => {
         <circle cx="12" cy="13" r="4"></circle>
       </svg>
     </div>
-    <p>لقينا <b>3 قطع</b> بالصورة اللي رفعتها: تيشيرت، جينز، كاب</p>
+    <p id="analysisResult" style="white-space:pre-line;">لقينا <b>3 قطع</b> بالصورة اللي رفعتها: تيشيرت، جينز، كاب</p>
   </div>
 
   <div class="tier-tabs">
@@ -2501,8 +2581,8 @@ document.querySelectorAll('.field').forEach(field => {
       </svg>
     </div>
     <div class="profile-info">
-      <h2>عبدالله</h2>
-      <p>+966 5X XXX XXXX</p>
+      <h2 id="profileName">مستخدم My Outfit</h2>
+      <p id="profileEmail" style="direction:ltr; text-align:right;"></p>
     </div>
   </div>
 
@@ -2514,7 +2594,7 @@ document.querySelectorAll('.field').forEach(field => {
       </div>
       <div class="row-body">
         <div class="label">المقاسات</div>
-        <div class="value">علوي M · سفلي M · حذاء 42</div>
+        <div class="value" id="profileSizes">علوي M · سفلي M · حذاء 42</div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
     </div>
@@ -2524,7 +2604,7 @@ document.querySelectorAll('.field').forEach(field => {
       </div>
       <div class="row-body">
         <div class="label">الجنس</div>
-        <div class="value">رجالي</div>
+        <div class="value" id="profileGender">رجالي</div>
       </div>
       <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
     </div>
@@ -2679,10 +2759,46 @@ signupBtn.addEventListener('click', async () => {
   }
 });
 
-// If the user already has a session (e.g. came back via the email verification link), skip login
+// If the user already has a session (e.g. came back via the email verification link), route smartly
 supabaseClient.auth.onAuthStateChange((event, session) => {
   if (session && event === 'SIGNED_IN') {
+    routeAfterLogin();
+  }
+});
+
+async function routeAfterLogin(){
+  const { data: userData } = await supabaseClient.auth.getUser();
+  const user = userData ? userData.user : null;
+  if (!user) return;
+
+  const { data: profile } = await supabaseClient
+    .from('profiles')
+    .select('gender')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (profile && profile.gender) {
+    showScreen('home');
+  } else {
     showScreen('onboarding');
+  }
+}
+
+const forgotLink = document.getElementById('forgotLink');
+forgotLink.addEventListener('click', async (e) => {
+  e.preventDefault();
+  const email = emailInput.value.trim();
+  if (!email) {
+    setStatus('اكتب إيميلك بالأعلى أول، وبعدها اضغط "نسيت كلمة السر"', true);
+    return;
+  }
+  const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.href
+  });
+  if (error) {
+    setStatus('صار خطأ: ' + error.message, true);
+  } else {
+    setStatus('أرسلنا لك رابط إعادة تعيين كلمة السر على بريدك', false);
   }
 });
 </script>
@@ -2693,6 +2809,34 @@ function showScreen(id){
   const target = document.getElementById('screen-' + id);
   if (target) target.classList.add('active-screen');
   window.scrollTo(0,0);
+  if (id === 'account') loadProfileIntoAccountScreen();
+}
+
+async function loadProfileIntoAccountScreen(){
+  const { data: userData } = await supabaseClient.auth.getUser();
+  const user = userData ? userData.user : null;
+  if (!user) return;
+
+  const emailEl = document.getElementById('profileEmail');
+  if (emailEl) emailEl.textContent = user.email || '';
+
+  const { data: profile } = await supabaseClient
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  const nameEl = document.getElementById('profileName');
+  if (nameEl && profile && profile.full_name) nameEl.textContent = profile.full_name;
+
+  if (profile) {
+    const sizesEl = document.getElementById('profileSizes');
+    if (sizesEl) {
+      sizesEl.textContent = `علوي ${profile.top_size || '—'} · سفلي ${profile.bottom_size || '—'} · حذاء ${profile.shoe_size || '—'}`;
+    }
+    const genderEl = document.getElementById('profileGender');
+    if (genderEl) genderEl.textContent = profile.gender === 'female' ? 'نسائي' : 'رجالي';
+  }
 }
 showScreen('login');
 </script>
