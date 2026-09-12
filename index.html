@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 
   :root{
@@ -1604,10 +1605,11 @@
 
   <div class="field">
     <label>البريد الإلكتروني</label>
-    <input class="text-input" type="email" placeholder="example@email.com" style="width:100%">
+    <input class="text-input" id="emailInput" type="email" placeholder="example@email.com" style="width:100%">
   </div>
 
-  <button class="btn-primary" onclick="showScreen('onboarding')">إرسال رمز التحقق</button>
+  <button class="btn-primary" id="sendCodeBtn">إرسال رمز التحقق</button>
+  <p id="loginStatus" style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:-16px; margin-bottom:20px;"></p>
 
   <div class="divider">
     <div class="line"></div>
@@ -2609,6 +2611,49 @@ document.getElementById('notifToggle').addEventListener('click', function(){
 
 </div>
 
+
+<script>
+// ===== Supabase setup =====
+const SUPABASE_URL = 'https://pzjsjloxvltkmczckobj.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_ZEx546yj85UcoELWOAde3Q_Vx2wsaFI';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ===== Login logic =====
+const sendCodeBtn = document.getElementById('sendCodeBtn');
+const emailInput = document.getElementById('emailInput');
+const loginStatus = document.getElementById('loginStatus');
+
+sendCodeBtn.addEventListener('click', async () => {
+  const email = emailInput.value.trim();
+  if (!email) {
+    loginStatus.textContent = 'اكتب إيميلك أول';
+    loginStatus.style.color = '#C9524A';
+    return;
+  }
+  sendCodeBtn.disabled = true;
+  sendCodeBtn.textContent = 'جاري الإرسال...';
+  const { error } = await supabaseClient.auth.signInWithOtp({
+    email: email,
+    options: { emailRedirectTo: window.location.href }
+  });
+  sendCodeBtn.disabled = false;
+  sendCodeBtn.textContent = 'إرسال رمز التحقق';
+  if (error) {
+    loginStatus.textContent = 'صار خطأ: ' + error.message;
+    loginStatus.style.color = '#C9524A';
+  } else {
+    loginStatus.textContent = 'تفقّد بريدك الإلكتروني واضغط على الرابط اللي أرسلناه لك';
+    loginStatus.style.color = '#C9A227';
+  }
+});
+
+// If the user already has a session (e.g. came back via the email link), skip login
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    showScreen('onboarding');
+  }
+});
+</script>
 
 <script>
 function showScreen(id){
