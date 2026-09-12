@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Outfit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{ display:flex; justify-content:center; }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 48px 24px 32px;
+  }
+
+  .brand{
+    text-align:center;
+    margin-bottom: 40px;
+  }
+  .brand .logo{
+    font-size: 24px;
+    font-weight:800;
+    margin-bottom:8px;
+  }
+  .brand .logo span{ color: var(--gold); }
+  .brand p{ font-size:13px; color: var(--text-muted); }
+
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color: var(--text-muted);
+    margin-bottom:8px;
+  }
+  .phone-row{
+    display:flex;
+    gap:8px;
+  }
+  .code-select{
+    width:76px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 8px;
+    font-family:'Tajawal', sans-serif;
+    font-size:13px;
+    color: var(--text);
+    text-align:center;
+  }
+  .text-input{
+    flex:1;
+    width:100%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-family:'Tajawal', sans-serif;
+    font-size:14px;
+    color: var(--text);
+  }
+  .text-input::placeholder{ color: var(--text-muted); }
+
+  .btn-primary{
+    width:100%;
+    background: var(--gold);
+    color:#241D08;
+    border:none;
+    border-radius: 14px;
+    padding: 16px 0;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    margin-top: 6px;
+    margin-bottom: 24px;
+  }
+
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom: 24px;
+  }
+  .divider .line{ flex:1; height:1px; background: var(--border); }
+  .divider span{ font-size:12px; color: var(--text-muted); }
+
+  .social-row{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom: 32px;
+  }
+  .social-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 14px;
+    padding: 13px 0;
+    font-size:14px;
+    font-weight:700;
+    color: var(--text);
+    cursor:pointer;
+  }
+  .social-btn svg{ width:18px; height:18px; }
+
+  .footer-note{
+    margin-top:auto;
+    text-align:center;
+    font-size:12px;
+    color: var(--text-muted);
+    line-height:1.8;
+  }
+  .footer-note a{ color: var(--gold); text-decoration:none; font-weight:600; }
+
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{ display:flex; justify-content:center; }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 24px 20px 32px;
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom: 24px;
+  }
+  .icon-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .icon-btn svg{ width:16px; height:16px; stroke:var(--text-muted); }
+
+  .dots{
+    display:flex;
+    gap:6px;
+    flex:1;
+  }
+  .dot{
+    flex:1;
+    height:4px;
+    border-radius:2px;
+    background: var(--border);
+  }
+  .dot.done{ background: var(--gold); }
+
+  .step{ display:none; flex:1; flex-direction:column; }
+  .step.active{ display:flex; }
+
+  .step h1{ font-size:20px; font-weight:800; margin-bottom:6px; }
+  .step p.sub{ font-size:13px; color: var(--text-muted); margin-bottom:28px; line-height:1.6; }
+
+  /* country */
+  .country-list{ display:flex; flex-direction:column; gap:12px; }
+  .country-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background: var(--surface);
+    border:1px solid var(--gold);
+    border-radius: 16px;
+    padding: 16px 18px;
+    cursor:pointer;
+  }
+  .country-card .name{ font-size:15px; font-weight:700; }
+  .country-card .check{
+    width:22px; height:22px;
+    border-radius:50%;
+    background: var(--gold);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .country-card .check svg{ width:12px; height:12px; stroke:#241D08; }
+  .country-card.disabled{
+    border-color: var(--border);
+    opacity:0.45;
+    cursor:not-allowed;
+  }
+  .country-card .soon{
+    font-size:11px;
+    color: var(--text-muted);
+    background: var(--surface-2);
+    padding:4px 10px;
+    border-radius:999px;
+  }
+
+  /* gender */
+  .gender-grid{ display:flex; gap:12px; }
+  .gender-card{
+    flex:1;
+    background: var(--surface);
+    border:1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 24px 12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+  }
+  .gender-card.selected{ border-color: var(--gold); background: rgba(201,162,39,0.1); }
+  .gender-card svg{ width:36px; height:36px; }
+  .gender-card span{ font-size:14px; font-weight:700; }
+
+  /* size */
+  .size-chip-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; }
+  .size-chip{
+    padding:12px 18px;
+    border-radius: 12px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    font-size:14px;
+    font-weight:700;
+    color: var(--text-muted);
+    cursor:pointer;
+  }
+  .size-chip.selected{
+    background: rgba(201,162,39,0.14);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .size-note{ font-size:12px; color: var(--text-muted); line-height:1.6; }
+
+  .measure-row{ display:flex; gap:10px; margin-bottom:16px; }
+  .measure-field{ flex:1; }
+  .measure-field label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color: var(--text-muted);
+    margin-bottom:8px;
+  }
+  .measure-input{
+    width:100%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-family:'Tajawal', sans-serif;
+    font-size:14px;
+    color: var(--text);
+  }
+  .measure-input::placeholder{ color: var(--text-muted); }
+
+  .btn-calc{
+    width:100%;
+    background: var(--surface-2);
+    border:1px solid var(--gold-dim);
+    color: var(--gold);
+    border-radius: 14px;
+    padding: 14px 0;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+    margin-bottom: 22px;
+  }
+
+  .size-results{ display:none; }
+  .size-results.visible{ display:block; }
+  .size-field{ margin-bottom: 18px; }
+  .size-field > label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color: var(--text-muted);
+    margin-bottom:8px;
+  }
+  .selected-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .selected-chip{
+    padding:10px 18px;
+    border-radius: 999px;
+    background: rgba(201,162,39,0.14);
+    border:1px solid var(--gold);
+    color: var(--gold);
+    font-size:13px;
+    font-weight:700;
+  }
+  .selected-chip::after{ content:"✦"; margin-right:6px; font-size:10px; }
+  .selected-chip.edited{ background: var(--surface); border-color: var(--border); color: var(--text); }
+  .selected-chip.edited::after{ content:""; margin:0; }
+  .edit-btn{
+    width:32px; height:32px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .edit-btn svg{ width:14px; height:14px; stroke: var(--text-muted); }
+  .alt-chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .alt-chip-row.hidden{ display:none; }
+  .alt-chip{
+    padding:9px 16px;
+    border-radius: 999px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    font-size:13px;
+    font-weight:600;
+    color: var(--text-muted);
+    cursor:pointer;
+  }
+
+  /* budget */
+  .budget-list{ display:flex; flex-direction:column; gap:12px; }
+  .budget-card{
+    background: var(--surface);
+    border:1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 18px;
+    cursor:pointer;
+  }
+  .budget-card.selected{ border-color: var(--gold); background: rgba(201,162,39,0.08); }
+  .budget-card h3{ font-size:14px; font-weight:700; margin-bottom:4px; }
+  .budget-card p{ font-size:12px; color: var(--text-muted); }
+
+  .spacer{ flex:1; }
+
+  .btn-row{ display:flex; gap:10px; margin-top:20px; }
+  .btn-next{
+    flex:1;
+    background: var(--gold);
+    color:#241D08;
+    border:none;
+    border-radius: 14px;
+    padding: 16px 0;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --olive: #5C6B4F;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{
+    display:flex;
+    justify-content:center;
+  }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 24px 20px 100px;
+    position:relative;
+  }
+
+  /* top bar */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: 36px;
+  }
+  .logo{
+    font-size: 20px;
+    font-weight:800;
+    letter-spacing: 0.5px;
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+  }
+  .logo .en{
+    font-family: 'Tajawal', sans-serif;
+    color: var(--gold);
+    font-weight:800;
+  }
+  .icon-btn{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+  }
+  .icon-btn svg{width:18px; height:18px; stroke:var(--text-muted);}
+
+  /* greeting */
+  .greeting{
+    margin-bottom: 28px;
+  }
+  .greeting h1{
+    font-size: 24px;
+    font-weight: 700;
+    line-height:1.5;
+    margin-bottom:6px;
+  }
+  .greeting p{
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight:400;
+  }
+
+  /* location badge */
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background: rgba(201,162,39,0.1);
+    border:1px solid rgba(201,162,39,0.35);
+    color: var(--gold);
+    font-size:12px;
+    font-weight:500;
+    padding:6px 12px;
+    border-radius:999px;
+    margin-bottom:28px;
+    width:fit-content;
+  }
+  .badge svg{width:12px; height:12px; stroke:var(--gold);}
+
+  /* main path cards */
+  .paths{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-bottom: 32px;
+  }
+  .path-card{
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    cursor:pointer;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+  .path-card:active{ transform: scale(0.98); }
+  .path-card:hover{ border-color: var(--gold-dim); }
+
+  .path-icon{
+    flex-shrink:0;
+    width:56px;
+    height:56px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .path-icon.gold{ background: rgba(201,162,39,0.14); }
+  .path-icon.olive{ background: rgba(92,107,79,0.22); }
+  .path-icon svg{ width:26px; height:26px; }
+  .path-icon.gold svg{ stroke: var(--gold); }
+  .path-icon.olive svg{ stroke: #9CB08A; }
+
+  .path-body{ flex:1; }
+  .path-body h2{
+    font-size:17px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .path-body p{
+    font-size:13px;
+    color: var(--text-muted);
+    line-height:1.5;
+    font-weight:400;
+  }
+
+  .path-arrow{
+    flex-shrink:0;
+    width:20px;
+    height:20px;
+    stroke: var(--text-muted);
+    transform: scaleX(-1); /* point toward reading start in RTL */
+  }
+
+  /* wardrobe strip */
+  .section-label{
+    font-size:13px;
+    font-weight:700;
+    color: var(--text-muted);
+    margin-bottom:14px;
+  }
+  .wardrobe-strip{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:6px;
+    margin-bottom:32px;
+  }
+  .wardrobe-strip::-webkit-scrollbar{ display:none; }
+  .item-thumb{
+    flex-shrink:0;
+    width:72px;
+    height:88px;
+    border-radius:12px;
+    background: var(--surface);
+    border:1px dashed var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .item-thumb svg{ width:22px; height:22px; stroke:var(--text-muted); }
+  .item-thumb.filled{
+    border-style:solid;
+    background: var(--surface-2);
+  }
+
+  /* bottom nav */
+  .bottom-nav{
+    position:fixed;
+    bottom:0; left:50%;
+    transform: translateX(-50%);
+    width:100%;
+    max-width:460px;
+    background: rgba(21,19,14,0.92);
+    backdrop-filter: blur(8px);
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-around;
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  }
+  .nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    color: var(--text-muted);
+    font-size:11px;
+    font-weight:500;
+  }
+  .nav-item.active{ color: var(--gold); }
+  .nav-item svg{ width:20px; height:20px; }
+  .nav-item.active svg{ stroke: var(--gold); }
+  .nav-item:not(.active) svg{ stroke: var(--text-muted); }
+
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{ display:flex; justify-content:center; }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 24px 20px 40px;
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom: 28px;
+  }
+  .icon-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .icon-btn svg{ width:16px; height:16px; stroke:var(--text-muted); }
+  .topbar h1{ font-size:16px; font-weight:700; }
+
+  .intro{ margin-bottom: 24px; }
+  .intro p{
+    font-size:13px;
+    color: var(--text-muted);
+    line-height:1.7;
+  }
+
+  /* upload zone */
+  .upload-zone{
+    flex:1;
+    min-height: 320px;
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    text-align:center;
+    padding: 32px 20px;
+    cursor:pointer;
+    transition: border-color 0.2s ease;
+    position:relative;
+    overflow:hidden;
+    margin-bottom: 20px;
+  }
+  .upload-zone:hover{ border-color: var(--gold-dim); }
+  .upload-zone.has-image{
+    border-style:solid;
+    padding:0;
+  }
+  .upload-zone img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:none;
+  }
+  .upload-zone.has-image img{ display:block; }
+  .upload-zone.has-image .placeholder{ display:none; }
+
+  .upload-icon{
+    width:56px; height:56px;
+    border-radius:50%;
+    background: rgba(201,162,39,0.12);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .upload-icon svg{ width:24px; height:24px; stroke: var(--gold); }
+  .placeholder h3{ font-size:15px; font-weight:700; margin-bottom:4px; }
+  .placeholder p{ font-size:12px; color: var(--text-muted); }
+
+  .change-badge{
+    position:absolute;
+    bottom:12px;
+    left:50%;
+    transform: translateX(-50%);
+    background: rgba(21,19,14,0.85);
+    backdrop-filter: blur(4px);
+    color: var(--text);
+    font-size:12px;
+    font-weight:600;
+    padding:8px 16px;
+    border-radius: 999px;
+    display:none;
+  }
+  .upload-zone.has-image .change-badge{ display:block; }
+
+  input[type=file]{ display:none; }
+
+  /* source options */
+  .source-options{
+    display:flex;
+    gap:10px;
+    margin-bottom: 24px;
+  }
+  .source-btn{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 14px;
+    padding: 13px 0;
+    font-size:13px;
+    font-weight:600;
+    color: var(--text);
+    cursor:pointer;
+  }
+  .source-btn svg{ width:16px; height:16px; stroke: var(--text-muted); }
+
+  /* tip */
+  .tip{
+    display:flex;
+    gap:10px;
+    background: rgba(201,162,39,0.08);
+    border:1px solid rgba(201,162,39,0.25);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 24px;
+  }
+  .tip svg{ width:16px; height:16px; stroke: var(--gold); flex-shrink:0; margin-top:2px; }
+  .tip p{ font-size:12px; color: var(--text-muted); line-height:1.6; }
+
+  .btn-analyze{
+    width:100%;
+    background: var(--gold);
+    color:#241D08;
+    border:none;
+    border-radius: 14px;
+    padding: 16px 0;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    opacity:0.4;
+    pointer-events:none;
+    transition: opacity 0.2s ease;
+  }
+  .btn-analyze.ready{ opacity:1; pointer-events:auto; }
+
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --olive: #5C6B4F;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{ display:flex; justify-content:center; }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 24px 20px 120px;
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom: 20px;
+  }
+  .icon-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .icon-btn svg{ width:16px; height:16px; stroke:var(--text-muted); }
+  .topbar h1{ font-size:16px; font-weight:700; }
+
+  /* source photo strip */
+  .source-strip{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 16px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  .source-thumb{
+    width:52px; height:52px;
+    border-radius:10px;
+    background: var(--surface-2);
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .source-thumb svg{ width:20px; height:20px; stroke:var(--text-muted); }
+  .source-strip p{ font-size:12px; color:var(--text-muted); line-height:1.5; }
+  .source-strip p b{ color:var(--text); font-weight:700; }
+
+  /* tier tabs */
+  .tier-tabs{
+    display:flex;
+    gap:8px;
+    margin-bottom: 20px;
+  }
+  .tier-tab{
+    flex:1;
+    text-align:center;
+    padding: 10px 0;
+    font-size:13px;
+    font-weight:700;
+    border-radius: 999px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    color: var(--text-muted);
+    cursor:pointer;
+    transition: all 0.15s ease;
+  }
+  .tier-tab.active{
+    background: rgba(201,162,39,0.14);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* product cards */
+  .products{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-bottom: 24px;
+  }
+  .product-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px;
+  }
+  .product-img{
+    width:64px; height:64px;
+    border-radius:12px;
+    background: #EFEAD9;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .product-img svg{ width:40px; height:40px; }
+  .product-info{ flex:1; min-width:0; }
+  .product-info h3{ font-size:14px; font-weight:700; margin-bottom:3px; }
+  .product-info .store{ font-size:12px; color:var(--text-muted); }
+  .product-price{
+    font-size:14px;
+    font-weight:800;
+    color: var(--gold);
+    white-space:nowrap;
+  }
+  .product-go{
+    width:32px; height:32px;
+    border-radius:50%;
+    background: var(--surface-2);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .product-go svg{ width:14px; height:14px; stroke:var(--text); transform:scaleX(-1); }
+
+  /* total bar */
+  .total-bar{
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: 20px;
+  }
+  .total-bar .label{ font-size:12px; color:var(--text-muted); margin-bottom:4px; }
+  .total-bar .amount{ font-size:22px; font-weight:800; color:var(--text); }
+  .total-bar .amount span{ font-size:13px; color:var(--text-muted); font-weight:500; }
+
+  /* action buttons */
+  .actions{
+    display:flex;
+    gap:10px;
+  }
+  .btn{
+    flex:1;
+    text-align:center;
+    padding: 14px 0;
+    border-radius: 14px;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+    border:none;
+  }
+  .btn-primary{ background: var(--gold); color:#241D08; }
+  .btn-secondary{
+    background: var(--surface);
+    color: var(--text);
+    border:1px solid var(--border);
+  }
+
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{ display:flex; justify-content:center; }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 24px 20px 210px;
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: 20px;
+  }
+  .topbar-right{ display:flex; align-items:center; gap:14px; }
+  .icon-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .icon-btn svg{ width:16px; height:16px; stroke:var(--text-muted); }
+  .topbar h1{ font-size:16px; font-weight:700; }
+
+  .count-badge{
+    font-size:12px;
+    color: var(--text-muted);
+    background: var(--surface);
+    border:1px solid var(--border);
+    padding:6px 12px;
+    border-radius: 999px;
+  }
+
+  /* wardrobe grid */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:10px;
+    margin-bottom: 24px;
+  }
+  .item-cell{
+    aspect-ratio: 3/4;
+    border-radius: 14px;
+    background: #EFEAD9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .item-cell svg{ width:60%; height:60%; }
+  .item-cell .cat-tag{
+    position:absolute;
+    bottom:6px;
+    right:6px;
+    left:6px;
+    background: rgba(21,19,14,0.75);
+    color:#F3EEE0;
+    font-size:10px;
+    font-weight:600;
+    text-align:center;
+    border-radius:6px;
+    padding:3px 0;
+  }
+  .add-cell{
+    aspect-ratio: 3/4;
+    border-radius: 14px;
+    border: 1.5px dashed var(--border);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    cursor:pointer;
+    color: var(--text-muted);
+  }
+  .add-cell svg{ width:22px; height:22px; stroke: var(--gold); }
+  .add-cell span{ font-size:11px; font-weight:600; }
+
+  /* sticky bottom sheet */
+  .style-sheet{
+    position:fixed;
+    bottom:0; left:50%;
+    transform: translateX(-50%);
+    width:100%;
+    max-width:460px;
+    background: var(--surface);
+    border-top:1px solid var(--border);
+    border-radius: 24px 24px 0 0;
+    padding: 18px 20px calc(18px + env(safe-area-inset-bottom));
+  }
+  .sheet-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom: 12px;
+  }
+  .sheet-header h2{ font-size:14px; font-weight:700; }
+
+  .season-toggle{
+    display:flex;
+    background: var(--surface-2);
+    border-radius: 999px;
+    padding:3px;
+    gap:2px;
+  }
+  .season-opt{
+    padding:5px 12px;
+    font-size:11px;
+    font-weight:700;
+    border-radius:999px;
+    color: var(--text-muted);
+    cursor:pointer;
+  }
+  .season-opt.active{ background: var(--gold); color:#241D08; }
+
+  .occasion-scroll{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding-bottom:14px;
+  }
+  .occasion-scroll::-webkit-scrollbar{ display:none; }
+  .occasion-chip{
+    flex-shrink:0;
+    padding:9px 16px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border:1px solid var(--border);
+    font-size:12px;
+    font-weight:600;
+    color: var(--text-muted);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .occasion-chip.active{
+    background: rgba(201,162,39,0.14);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .btn-style{
+    width:100%;
+    background: var(--gold);
+    color:#241D08;
+    border:none;
+    border-radius: 14px;
+    padding: 15px 0;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{ display:flex; justify-content:center; }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 24px 20px 40px;
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom: 24px;
+  }
+  .icon-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .icon-btn svg{ width:16px; height:16px; stroke:var(--text-muted); }
+  .topbar h1{ font-size:16px; font-weight:700; }
+
+  /* photo preview */
+  .photo-preview{
+    width:100%;
+    height: 220px;
+    border-radius: var(--radius);
+    background: #EFEAD9;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom: 18px;
+    position:relative;
+  }
+  .photo-preview svg{ width:100px; height:100px; }
+  .retake{
+    position:absolute;
+    bottom:12px;
+    left:50%;
+    transform:translateX(-50%);
+    background: rgba(21,19,14,0.85);
+    color: var(--text);
+    font-size:12px;
+    font-weight:600;
+    padding:8px 16px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+
+  /* AI suggestion note */
+  .ai-note{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom: 20px;
+  }
+  .ai-note svg{ width:15px; height:15px; stroke: var(--gold); }
+  .ai-note span{ font-size:12px; color: var(--text-muted); }
+  .ai-note b{ color: var(--gold); font-weight:700; }
+
+  /* form fields */
+  .field{ margin-bottom: 18px; }
+  .field label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color: var(--text-muted);
+    margin-bottom:8px;
+  }
+  .selected-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .selected-chip{
+    padding:10px 18px;
+    border-radius: 999px;
+    background: rgba(201,162,39,0.14);
+    border:1px solid var(--gold);
+    color: var(--gold);
+    font-size:13px;
+    font-weight:700;
+  }
+  .selected-chip::after{
+    content: "✦";
+    margin-right:6px;
+    font-size:10px;
+  }
+  .selected-chip.edited{
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text);
+  }
+  .selected-chip.edited::after{ content:""; margin:0; }
+  .edit-btn{
+    width:32px; height:32px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .edit-btn svg{ width:14px; height:14px; stroke: var(--text-muted); }
+
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px;
+  }
+  .chip-row.hidden{ display:none; }
+  .chip{
+    padding:9px 16px;
+    border-radius: 999px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    font-size:13px;
+    font-weight:600;
+    color: var(--text-muted);
+    cursor:pointer;
+  }
+  .chip:hover{ border-color: var(--gold-dim); }
+
+  .text-input{
+    width:100%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-family:'Tajawal', sans-serif;
+    font-size:14px;
+    color: var(--text);
+  }
+  .text-input::placeholder{ color: var(--text-muted); }
+
+  .btn-save{
+    width:100%;
+    background: var(--gold);
+    color:#241D08;
+    border:none;
+    border-radius: 14px;
+    padding: 16px 0;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    margin-top:8px;
+  }
+
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{ display:flex; justify-content:center; }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 24px 20px 40px;
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom: 8px;
+  }
+  .icon-btn{
+    width:36px; height:36px;
+    border-radius:50%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .icon-btn svg{ width:16px; height:16px; stroke:var(--text-muted); }
+  .topbar h1{ font-size:16px; font-weight:700; }
+
+  .intro{ margin-bottom: 20px; }
+  .intro p{ font-size:13px; color: var(--text-muted); line-height:1.7; }
+
+  /* captured items strip */
+  .section-label{
+    font-size:13px;
+    font-weight:700;
+    color: var(--text-muted);
+    margin-bottom:12px;
+  }
+  .captured-strip{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:6px;
+    margin-bottom:28px;
+  }
+  .captured-strip::-webkit-scrollbar{ display:none; }
+  .cap-thumb{
+    flex-shrink:0;
+    width:64px; height:64px;
+    border-radius:12px;
+    background:#EFEAD9;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cap-thumb svg{ width:60%; height:60%; }
+  .add-thumb{
+    flex-shrink:0;
+    width:64px; height:64px;
+    border-radius:12px;
+    border:1.5px dashed var(--border);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .add-thumb svg{ width:20px; height:20px; stroke: var(--gold); }
+
+  /* best combo card */
+  .best-card{
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--gold-dim);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 24px;
+    position:relative;
+  }
+  .best-badge{
+    position:absolute;
+    top:-10px;
+    right:20px;
+    background: var(--gold);
+    color:#241D08;
+    font-size:11px;
+    font-weight:800;
+    padding:5px 12px;
+    border-radius:999px;
+  }
+  .mannequin-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:14px;
+  }
+  .mannequin-wrap svg{ width:110px; height:auto; }
+  .best-card h2{ font-size:15px; font-weight:700; margin-bottom:5px; }
+  .best-card p{ font-size:12px; color: var(--text-muted); line-height:1.6; }
+
+  /* alternatives */
+  .alt-scroll{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    padding-bottom:6px;
+    margin-bottom: 24px;
+  }
+  .alt-scroll::-webkit-scrollbar{ display:none; }
+  .alt-card{
+    flex-shrink:0;
+    width:150px;
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 16px;
+    padding: 14px;
+  }
+  .alt-items{
+    display:flex;
+    justify-content:center;
+    margin-bottom:10px;
+  }
+  .alt-card p{ font-size:11px; color: var(--text-muted); line-height:1.5; }
+
+  .btn-more{
+    width:100%;
+    background: var(--surface);
+    border:1px solid var(--border);
+    color: var(--text);
+    border-radius: 14px;
+    padding: 15px 0;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
+  }
+
+
+  :root{
+    --bg: #15130E;
+    --surface: #201C14;
+    --surface-2: #2A2419;
+    --border: #3A3323;
+    --text: #F3EEE0;
+    --text-muted: #B3AB93;
+    --gold: #C9A227;
+    --gold-dim: #8A711D;
+    --red: #C9524A;
+    --radius: 20px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Tajawal', sans-serif;
+    min-height: 100vh;
+  }
+  body{ display:flex; justify-content:center; }
+  .screen{
+    width:100%;
+    max-width: 460px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    padding: 24px 20px 100px;
+  }
+
+  h1{ font-size:20px; font-weight:800; margin-bottom:24px; }
+
+  /* profile card */
+  .profile-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 24px;
+  }
+  .avatar{
+    width:54px; height:54px;
+    border-radius:50%;
+    background: rgba(201,162,39,0.14);
+    border:1px solid var(--gold-dim);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .avatar svg{ width:24px; height:24px; stroke: var(--gold); }
+  .profile-info h2{ font-size:15px; font-weight:700; margin-bottom:3px; }
+  .profile-info p{ font-size:12px; color: var(--text-muted); direction:ltr; text-align:right; }
+
+  /* section */
+  .section-title{
+    font-size:12px;
+    font-weight:700;
+    color: var(--text-muted);
+    margin: 8px 4px 10px;
+  }
+  .list{
+    background: var(--surface);
+    border:1px solid var(--border);
+    border-radius: 16px;
+    overflow:hidden;
+    margin-bottom: 22px;
+  }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding: 14px 16px;
+    border-bottom:1px solid var(--border);
+    cursor:pointer;
+  }
+  .row:last-child{ border-bottom:none; }
+  .row-icon{
+    width:32px; height:32px;
+    border-radius:9px;
+    background: var(--surface-2);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .row-icon svg{ width:16px; height:16px; stroke: var(--gold); }
+  .row-body{ flex:1; }
+  .row-body .label{ font-size:13px; font-weight:600; }
+  .row-body .value{ font-size:11px; color: var(--text-muted); margin-top:2px; }
+  .chevron{ width:16px; height:16px; stroke: var(--text-muted); transform:scaleX(-1); flex-shrink:0; }
+
+  /* toggle */
+  .toggle{
+    width:42px; height:24px;
+    border-radius:999px;
+    background: var(--surface-2);
+    border:1px solid var(--border);
+    position:relative;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .toggle.on{ background: rgba(201,162,39,0.3); border-color: var(--gold); }
+  .toggle .knob{
+    position:absolute;
+    top:2px; right:2px;
+    width:18px; height:18px;
+    border-radius:50%;
+    background: var(--text-muted);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .toggle.on .knob{ background: var(--gold); transform: translateX(-18px); }
+
+  .row.danger .row-body .label{ color: var(--red); }
+  .row.danger .row-icon svg{ stroke: var(--red); }
+
+  /* bottom nav */
+  .bottom-nav{
+    position:fixed;
+    bottom:0; left:50%;
+    transform: translateX(-50%);
+    width:100%;
+    max-width:460px;
+    background: rgba(21,19,14,0.92);
+    backdrop-filter: blur(8px);
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:space-around;
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  }
+  .nav-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    color: var(--text-muted);
+    font-size:11px;
+    font-weight:500;
+  }
+  .nav-item.active{ color: var(--gold); }
+  .nav-item svg{ width:20px; height:20px; }
+  .nav-item.active svg{ stroke: var(--gold); }
+  .nav-item:not(.active) svg{ stroke: var(--text-muted); }
+
+
+.app-screen{ display:none; }
+.app-screen.active-screen{ display:block; }
+
+</style>
+</head>
+<body>
+
+<div class="app-screen" id="screen-login">
+
+<div class="screen">
+
+  <div class="brand">
+    <div class="logo">ماي <span>Outfit</span></div>
+    <p>ستايلك، بس أذكى</p>
+  </div>
+
+  <div class="field">
+    <label>البريد الإلكتروني</label>
+    <input class="text-input" type="email" placeholder="example@email.com" style="width:100%">
+  </div>
+
+  <button class="btn-primary" onclick="showScreen('onboarding')">إرسال رمز التحقق</button>
+
+  <div class="divider">
+    <div class="line"></div>
+    <span>أو</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="social-row">
+    <div class="social-btn">
+      <svg viewBox="0 0 24 24"><path fill="#FFFFFF" d="M12 11.5v2.9h5.2c-.2 1.4-1.6 4.1-5.2 4.1-3.1 0-5.7-2.6-5.7-5.8s2.6-5.8 5.7-5.8c1.8 0 3 .8 3.6 1.4l2.5-2.4C16.6 4.4 14.5 3.5 12 3.5 6.9 3.5 2.8 7.6 2.8 12.7S6.9 21.9 12 21.9c6.2 0 9.4-4.3 9.4-9.4 0-.6 0-1.1-.1-1.6H12z"/></svg>
+      المتابعة بحساب Google
+    </div>
+    <div class="social-btn">
+      <svg viewBox="0 0 24 24"><path fill="#FFFFFF" d="M16.7 1.3c-1.1.1-2.4.8-3.1 1.7-.7.8-1.3 2-1.1 3.2 1.2.1 2.4-.6 3.1-1.5.7-.8 1.2-2 1.1-3.4zM20 17.2c-.5 1.2-.8 1.7-1.5 2.8-.9 1.5-2.2 3.3-3.8 3.3-1.4 0-1.8-.9-3.7-.9-1.9 0-2.4.9-3.8.9-1.6 0-2.8-1.6-3.7-3.1-2.5-4-2.8-8.6-1.2-11 1.1-1.7 2.9-2.7 4.6-2.7 1.7 0 2.8 1 4.2 1s2.3-1 4.2-1c1.4 0 2.9.7 4 2-3.5 1.9-2.9 6.8.7 8.7z"/></svg>
+      المتابعة بحساب Apple
+    </div>
+  </div>
+
+  <div class="footer-note">
+    بالمتابعة، أنت توافق على <a href="#">شروط الاستخدام</a> و<a href="#">سياسة الخصوصية</a>
+  </div>
+
+</div>
+
+</div>
+
+
+<div class="app-screen" id="screen-onboarding">
+
+<div class="screen">
+
+  <div class="topbar">
+    <div class="icon-btn" id="backBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </div>
+    <div class="dots">
+      <div class="dot" data-step="1"></div>
+      <div class="dot" data-step="2"></div>
+      <div class="dot" data-step="3"></div>
+    </div>
+  </div>
+
+  <!-- Step 1: Country -->
+  <div class="step active" data-step="1">
+    <h1>وين موقعك؟</h1>
+    <p class="sub">نعرض لك المتاجر المتوفرة والشحن حسب دولتك</p>
+    <div class="country-list">
+      <div class="country-card">
+        <div class="name">🇸🇦 السعودية</div>
+        <div class="check">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+        </div>
+      </div>
+      <div class="country-card disabled">
+        <div class="name">🇦🇪 الإمارات</div>
+        <div class="soon">قريباً</div>
+      </div>
+      <div class="country-card disabled">
+        <div class="name">🇰🇼 الكويت</div>
+        <div class="soon">قريباً</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Gender -->
+  <div class="step" data-step="2">
+    <h1>وش جنسك؟</h1>
+    <p class="sub">عشان نخصص لك المقاسات والمانيكير المناسب</p>
+    <div class="gender-grid">
+      <div class="gender-card" data-gender="male">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.6"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg>
+        <span>رجالي</span>
+      </div>
+      <div class="gender-card" data-gender="female">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.6"><circle cx="12" cy="7" r="4"></circle><path d="M12 11v9M8.5 16h7"></path></svg>
+        <span>نسائي</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Size -->
+  <div class="step" data-step="3">
+    <h1>وش مقاسك؟</h1>
+    <p class="sub">أدخل طولك ووزنك، وخلّنا نحسب لك المقاس التقريبي</p>
+
+    <div class="measure-row">
+      <div class="measure-field">
+        <label>الطول (سم)</label>
+        <input class="measure-input" type="number" id="heightInput" placeholder="مثلاً 175">
+      </div>
+      <div class="measure-field">
+        <label>الوزن (كجم)</label>
+        <input class="measure-input" type="number" id="weightInput" placeholder="مثلاً 72">
+      </div>
+    </div>
+
+    <button class="btn-calc" id="calcBtn">احسب المقاس المناسب</button>
+
+    <div class="size-results" id="sizeResults">
+      <div class="size-field" data-options="XS,S,M,L,XL,XXL">
+        <label>المقاس العلوي</label>
+        <div class="selected-row">
+          <div class="selected-chip suggested" id="topSizeChip">M</div>
+          <div class="edit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="alt-chip-row hidden"></div>
+      </div>
+
+      <div class="size-field" data-options="XS,S,M,L,XL,XXL">
+        <label>المقاس السفلي</label>
+        <div class="selected-row">
+          <div class="selected-chip suggested" id="bottomSizeChip">M</div>
+          <div class="edit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="alt-chip-row hidden"></div>
+      </div>
+
+      <div class="size-field" data-options="38,39,40,41,42,43,44,45,46">
+        <label>مقاس الحذاء (تقريبي)</label>
+        <div class="selected-row">
+          <div class="selected-chip suggested" id="shoeSizeChip">42</div>
+          <div class="edit-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="alt-chip-row hidden"></div>
+      </div>
+
+      <p class="size-note">مقاس الحذاء تقريبي بناءً على طولك — عدّله لو يختلف عن مقاسك الفعلي</p>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+  <div class="btn-row">
+    <button class="btn-next" id="nextBtn">التالي</button>
+  </div>
+
+</div>
+
+<script>
+let current = 1;
+const total = 3;
+
+function updateDots(){
+  document.querySelectorAll('.dot').forEach(d => {
+    d.classList.toggle('done', Number(d.dataset.step) <= current);
+  });
+}
+function showStep(n){
+  document.querySelectorAll('.step').forEach(s => {
+    s.classList.toggle('active', Number(s.dataset.step) === n);
+  });
+  document.getElementById('nextBtn').textContent = n === total ? 'ابدأ التسوق' : 'التالي';
+  updateDots();
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  if (current < total) { current++; showStep(current); }
+  else { location.href = 'index.html'; }
+});
+document.getElementById('backBtn').addEventListener('click', () => {
+  if (current > 1) { current--; showStep(current); }
+});
+
+document.querySelectorAll('.gender-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+  });
+});
+document.querySelectorAll('.size-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+  });
+});
+
+// height/weight -> approximate size estimate
+function estimateSize(height, weight){
+  if (!height || !weight) return { top: 'M', bottom: 'M' };
+  const bmi = weight / ((height / 100) * (height / 100));
+  const order = ['XS','S','M','L','XL','XXL'];
+  let idx = 2; // default M
+  if (bmi < 19) idx = 0;
+  else if (bmi < 21.5) idx = 1;
+  else if (bmi < 25) idx = 2;
+  else if (bmi < 28) idx = 3;
+  else if (bmi < 32) idx = 4;
+  else idx = 5;
+  return { top: order[idx], bottom: order[Math.min(idx + (height > 180 ? 0 : 0), 5)] };
+}
+
+function estimateShoeSize(height, gender){
+  let size;
+  if (gender === 'female') {
+    size = 36 + Math.round((height - 145) / 6.5);
+    size = Math.max(35, Math.min(42, size));
+  } else {
+    size = 39 + Math.round((height - 155) / 6.5);
+    size = Math.max(38, Math.min(46, size));
+  }
+  return String(size);
+}
+
+document.getElementById('calcBtn').addEventListener('click', () => {
+  const h = Number(document.getElementById('heightInput').value);
+  const w = Number(document.getElementById('weightInput').value);
+  if (!h || !w) { alert('عبّي الطول والوزن أول'); return; }
+  const genderCard = document.querySelector('.gender-card.selected');
+  const gender = genderCard ? genderCard.dataset.gender : 'male';
+  const result = estimateSize(h, w);
+  document.getElementById('topSizeChip').textContent = result.top;
+  document.getElementById('bottomSizeChip').textContent = result.bottom;
+  document.getElementById('shoeSizeChip').textContent = estimateShoeSize(h, gender);
+  document.querySelectorAll('#sizeResults .selected-chip').forEach(c => {
+    c.classList.add('suggested');
+    c.classList.remove('edited');
+  });
+  document.getElementById('sizeResults').classList.add('visible');
+});
+
+// edit-toggle pattern for AI-suggested size chips
+document.querySelectorAll('.size-field').forEach(field => {
+  const options = field.dataset.options.split(',');
+  const selectedChip = field.querySelector('.selected-chip');
+  const editBtn = field.querySelector('.edit-btn');
+  const altRow = field.querySelector('.alt-chip-row');
+
+  function buildAlts(){
+    altRow.innerHTML = '';
+    options.forEach(opt => {
+      if (opt === selectedChip.textContent) return;
+      const chip = document.createElement('div');
+      chip.className = 'alt-chip';
+      chip.textContent = opt;
+      chip.addEventListener('click', () => {
+        selectedChip.textContent = opt;
+        selectedChip.classList.remove('suggested');
+        selectedChip.classList.add('edited');
+        altRow.classList.add('hidden');
+      });
+      altRow.appendChild(chip);
+    });
+  }
+
+  editBtn.addEventListener('click', () => {
+    const isHidden = altRow.classList.contains('hidden');
+    if (isHidden) buildAlts();
+    altRow.classList.toggle('hidden');
+  });
+});
+document.querySelectorAll('.budget-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.budget-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+  });
+});
+
+showStep(current);
+</script>
+
+</div>
+
+
+<div class="app-screen" id="screen-home">
+
+<div class="screen">
+
+  <div class="topbar">
+    <div class="logo">ماي <span class="en">Outfit</span></div>
+    <div class="icon-btn" aria-label="الإعدادات" onclick="showScreen('account')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+    السعودية
+  </div>
+
+  <div class="greeting">
+    <h1>وش تبي تسوي اليوم؟</h1>
+    <p>اختر إحدى الطريقتين وخلّها علينا</p>
+  </div>
+
+  <div class="paths">
+    <div class="path-card" onclick="showScreen('upload')">
+      <div class="path-icon gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+          <circle cx="12" cy="13" r="4"></circle>
+        </svg>
+      </div>
+      <div class="path-body">
+        <h2>ابحث عن ستايل</h2>
+        <p>شفت إطلالة عجبتك بالنت؟ ارفع صورتها ونجيب لك نفس القطع</p>
+      </div>
+      <svg class="path-arrow" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6"></path>
+      </svg>
+    </div>
+
+    <div class="path-card" onclick="showScreen('wardrobe')">
+      <div class="path-icon olive">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2l1.5 4h9L18 2"></path>
+          <path d="M4 8h16l-1.5 13a2 2 0 0 1-2 2H7.5a2 2 0 0 1-2-2z"></path>
+        </svg>
+      </div>
+      <div class="path-body">
+        <h2>طقم لي</h2>
+        <p>صوّر ملابسك اللي عندك، ودعنا ننسّق لك طقم يناسب مناسبتك</p>
+      </div>
+      <svg class="path-arrow" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18l6-6-6-6"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section-label">آخر ما أضفت لخزانتك</div>
+  <div class="wardrobe-strip">
+    <div class="item-thumb">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+    </svg>
+    الرئيسية
+  </div>
+  <div class="nav-item" onclick="showScreen('wardrobe')">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 8h16l-1.5 13a2 2 0 0 1-2 2H7.5a2 2 0 0 1-2-2z"></path>
+      <path d="M6 2l1.5 4h9L18 2"></path>
+    </svg>
+    خزانتي
+  </div>
+  <div class="nav-item" onclick="showScreen('account')">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"></circle>
+      <path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path>
+    </svg>
+    حسابي
+  </div>
+</div>
+
+
+</div>
+
+
+<div class="app-screen" id="screen-upload">
+
+<div class="screen">
+
+  <div class="topbar">
+    <div class="icon-btn" onclick="showScreen('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </div>
+    <h1>ابحث عن ستايل</h1>
+  </div>
+
+  <div class="intro">
+    <p>ارفع صورة الإطلالة اللي عجبتك، وخلّنا نجيب لك نفس القطع من متاجر تشحن للسعودية</p>
+  </div>
+
+  <label class="upload-zone" id="dropZone">
+    <img id="previewImg" alt="الصورة المرفوعة">
+    <div class="placeholder">
+      <div class="upload-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 16V4M12 4l-4 4M12 4l4 4"></path>
+          <path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"></path>
+        </svg>
+      </div>
+      <h3>اضغط لرفع صورة</h3>
+      <p>PNG أو JPG بجودة واضحة</p>
+    </div>
+    <div class="change-badge">تغيير الصورة</div>
+    <input type="file" accept="image/*" id="fileInput">
+  </label>
+
+  <div class="source-options">
+    <div class="source-btn" onclick="document.getElementById('fileInput').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <path d="M21 15l-5-5L5 21"></path>
+      </svg>
+      من المعرض
+    </div>
+    <div class="source-btn" onclick="document.getElementById('fileInput').click()">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </svg>
+      كاميرا
+    </div>
+  </div>
+
+  <div class="tip">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 16v-4M12 8h.01"></path>
+    </svg>
+    <p>لأفضل نتيجة، اختر صورة واضحة تظهر القطع بشكل كامل بدون تشويش</p>
+  </div>
+
+  <button class="btn-analyze" id="analyzeBtn">حلل الصورة</button>
+
+</div>
+
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const previewImg = document.getElementById('previewImg');
+const analyzeBtn = document.getElementById('analyzeBtn');
+analyzeBtn.addEventListener('click', () => {
+  if (analyzeBtn.classList.contains('ready')) location.href = 'results.html';
+});
+
+fileInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    previewImg.src = reader.result;
+    dropZone.classList.add('has-image');
+    analyzeBtn.classList.add('ready');
+  };
+  reader.readAsDataURL(file);
+});
+</script>
+
+</div>
+
+
+<div class="app-screen" id="screen-results">
+
+<div class="screen">
+
+  <div class="topbar">
+    <div class="icon-btn" onclick="showScreen('upload')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </div>
+    <h1>نتيجة التحليل</h1>
+  </div>
+
+  <div class="source-strip">
+    <div class="source-thumb">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </svg>
+    </div>
+    <p>لقينا <b>3 قطع</b> بالصورة اللي رفعتها: تيشيرت، جينز، كاب</p>
+  </div>
+
+  <div class="tier-tabs">
+    <div class="tier-tab" data-tier="economic">اقتصادي</div>
+    <div class="tier-tab active" data-tier="medium">متوسط</div>
+    <div class="tier-tab" data-tier="luxury">فاخر</div>
+  </div>
+
+  <div class="products" id="products"></div>
+
+  <div class="total-bar">
+    <div>
+      <div class="label">إجمالي الطقم</div>
+      <div class="amount"><span id="total">0</span> <span>ر.س</span></div>
+    </div>
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C9A227" stroke-width="1.6">
+      <path d="M6 2l1.5 4h9L18 2"></path>
+      <path d="M4 8h16l-1.5 13a2 2 0 0 1-2 2H7.5a2 2 0 0 1-2-2z"></path>
+    </svg>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" onclick="showScreen('wardrobe')">احفظ الطقم بخزانتي</button>
+    <button class="btn btn-secondary">شارك الإطلالة</button>
+  </div>
+
+</div>
+
+<script>
+const data = {
+  economic: [
+    {name:"تيشيرت أبيض أساسي", store:"SHEIN", price:39},
+    {name:"جينز أزرق غامق", store:"Fordeal", price:79},
+    {name:"كاب أسود سادة", store:"نمشي", price:35},
+  ],
+  medium: [
+    {name:"تيشيرت أبيض أساسي", store:"H&M", price:89},
+    {name:"جينز أزرق غامق", store:"نمشي", price:169},
+    {name:"كاب أسود سادة", store:"6thstreet", price:75},
+  ],
+  luxury: [
+    {name:"تيشيرت أبيض أساسي", store:"Zara", price:149},
+    {name:"جينز أزرق غامق", store:"Ounass", price:399},
+    {name:"كاب أسود سادة", store:"Level Shoes", price:210},
+  ],
+};
+
+const icons = [
+  // white t-shirt, flat product-photo style
+  '<path d="M8.5 3L4 6.5 5.8 10 8 8.3V21h8V8.3l2.2 1.7L20 6.5 15.5 3 12.7 5h-1.4z" fill="#FAFAF7" stroke="#B8B29E" stroke-width="0.6"/>',
+  // dark denim jeans
+  '<path d="M6.5 3h11l1 18h-5l-.8-9-.7 9h-5z" fill="#33507A"/><path d="M6.5 3h11l.3 4h-11.6z" fill="#28405F"/>',
+  // black cap
+  '<path d="M4 14.5A8 8 0 0 1 20 14.5z" fill="#1C1A16"/><rect x="2.5" y="13.5" width="8.5" height="2.2" rx="1.1" fill="#1C1A16"/><circle cx="12" cy="9" r="1" fill="#C9A227"/>',
+];
+
+function render(tier){
+  const list = document.getElementById('products');
+  list.innerHTML = '';
+  let total = 0;
+  data[tier].forEach((item, i) => {
+    total += item.price;
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <div class="product-img"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6">${icons[i]}</svg></div>
+      <div class="product-info">
+        <h3>${item.name}</h3>
+        <div class="store">${item.store}</div>
+      </div>
+      <div class="product-price">${item.price} ر.س</div>
+      <div class="product-go"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></div>
+    `;
+    list.appendChild(card);
+  });
+  document.getElementById('total').textContent = total;
+}
+
+document.querySelectorAll('.tier-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tier-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    render(tab.dataset.tier);
+  });
+});
+
+render('medium');
+</script>
+
+</div>
+
+
+<div class="app-screen" id="screen-wardrobe">
+
+<div class="screen">
+
+  <div class="topbar">
+    <div class="topbar-right">
+      <div class="icon-btn" onclick="showScreen('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+      </div>
+      <h1>طقم لي</h1>
+    </div>
+    <div class="count-badge">6 قطع</div>
+  </div>
+
+  <div class="grid">
+    <div class="item-cell">
+      <svg viewBox="0 0 24 24"><path d="M8.5 3L4 6.5 5.8 10 8 8.3V21h8V8.3l2.2 1.7L20 6.5 15.5 3 12.7 5h-1.4z" fill="#FAFAF7" stroke="#B8B29E" stroke-width="0.6"/></svg>
+      <div class="cat-tag">تيشيرت</div>
+    </div>
+    <div class="item-cell">
+      <svg viewBox="0 0 24 24"><path d="M6.5 3h11l1 18h-5l-.8-9-.7 9h-5z" fill="#33507A"/><path d="M6.5 3h11l.3 4h-11.6z" fill="#28405F"/></svg>
+      <div class="cat-tag">جينز</div>
+    </div>
+    <div class="item-cell">
+      <svg viewBox="0 0 24 24"><path d="M4 14.5A8 8 0 0 1 20 14.5z" fill="#1C1A16"/><rect x="2.5" y="13.5" width="8.5" height="2.2" rx="1.1" fill="#1C1A16"/></svg>
+      <div class="cat-tag">كاب</div>
+    </div>
+    <div class="item-cell">
+      <svg viewBox="0 0 24 24"><path d="M8.5 3L4 6.5 5.8 10 8 8.3V21h8V8.3l2.2 1.7L20 6.5 15.5 3 12.7 5h-1.4z" fill="#2B2B2B" stroke="#1A1A1A" stroke-width="0.6"/></svg>
+      <div class="cat-tag">هودي</div>
+    </div>
+    <div class="item-cell">
+      <svg viewBox="0 0 24 24"><path d="M4 20h16l-1-9H5z" fill="#EDEDED" stroke="#C9C9C9" stroke-width="0.4"/><path d="M4 20h16l.4 2H3.6z" fill="#D8D8D8"/></svg>
+      <div class="cat-tag">سنيكرز</div>
+    </div>
+    <div class="add-cell" onclick="showScreen('additem')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
+      <span>أضف قطعة</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="style-sheet">
+  <div class="sheet-header">
+    <h2>طقّمني على مناسبة</h2>
+    <div class="season-toggle">
+      <div class="season-opt active" data-season="summer">صيفي</div>
+      <div class="season-opt" data-season="winter">شتوي</div>
+    </div>
+  </div>
+
+  <div class="occasion-scroll">
+    <div class="occasion-chip active">طلعة عادية</div>
+    <div class="occasion-chip">ستريت وير</div>
+    <div class="occasion-chip">أولد موني</div>
+    <div class="occasion-chip">رياضي/سبور</div>
+    <div class="occasion-chip">سفر</div>
+  </div>
+
+  <button class="btn-style" onclick="showScreen('shopping')">طقّمني</button>
+</div>
+
+<script>
+document.querySelectorAll('.season-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.season-opt').forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+  });
+});
+document.querySelectorAll('.occasion-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.occasion-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+</script>
+
+</div>
+
+
+<div class="app-screen" id="screen-additem">
+
+<div class="screen">
+
+  <div class="topbar">
+    <div class="icon-btn" onclick="showScreen('wardrobe')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </div>
+    <h1>إضافة قطعة</h1>
+  </div>
+
+  <div class="photo-preview">
+    <svg viewBox="0 0 24 24"><path d="M8.5 3L4 6.5 5.8 10 8 8.3V21h8V8.3l2.2 1.7L20 6.5 15.5 3 12.7 5h-1.4z" fill="#FAFAF7" stroke="#B8B29E" stroke-width="0.5"/></svg>
+    <div class="retake">إعادة التصوير</div>
+  </div>
+
+  <div class="ai-note">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2l1.5 5.5L19 9l-5.5 1.5L12 16l-1.5-5.5L5 9l5.5-1.5z"></path>
+    </svg>
+    <span><b>اقتراح الذكاء الاصطناعي</b> — عدّل أي شي لو ما كان دقيق</span>
+  </div>
+
+  <div class="field" data-options="تيشيرت,قميص,هودي,جينز,كاب,أخرى">
+    <label>نوع القطعة</label>
+    <div class="selected-row">
+      <div class="selected-chip suggested">تيشيرت</div>
+      <div class="edit-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path>
+        </svg>
+      </div>
+    </div>
+    <div class="chip-row hidden"></div>
+  </div>
+
+  <div class="field" data-options="صيفي,شتوي,كل المواسم">
+    <label>الموسم</label>
+    <div class="selected-row">
+      <div class="selected-chip suggested">صيفي</div>
+      <div class="edit-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path>
+        </svg>
+      </div>
+    </div>
+    <div class="chip-row hidden"></div>
+  </div>
+
+  <div class="field" data-options="أبيض,أسود,كحلي,بيج,أخرى">
+    <label>اللون</label>
+    <div class="selected-row">
+      <div class="selected-chip suggested">أبيض</div>
+      <div class="edit-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path>
+        </svg>
+      </div>
+    </div>
+    <div class="chip-row hidden"></div>
+  </div>
+
+  <div class="field">
+    <label>ملاحظة (اختياري)</label>
+    <input class="text-input" type="text" placeholder="مثلاً: هدية من أمي">
+  </div>
+
+  <button class="btn-save" onclick="showScreen('wardrobe')">حفظ بالخزانة</button>
+
+</div>
+
+<script>
+document.querySelectorAll('.field').forEach(field => {
+  const options = field.dataset.options.split(',');
+  const selectedChip = field.querySelector('.selected-chip');
+  const editBtn = field.querySelector('.edit-btn');
+  const chipRow = field.querySelector('.chip-row');
+
+  function buildChips(){
+    chipRow.innerHTML = '';
+    options.forEach(opt => {
+      if (opt === selectedChip.textContent) return;
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.textContent = opt;
+      chip.addEventListener('click', () => {
+        selectedChip.textContent = opt;
+        selectedChip.classList.remove('suggested');
+        selectedChip.classList.add('edited');
+        chipRow.classList.add('hidden');
+      });
+      chipRow.appendChild(chip);
+    });
+  }
+
+  editBtn.addEventListener('click', () => {
+    const isHidden = chipRow.classList.contains('hidden');
+    if (isHidden) buildChips();
+    chipRow.classList.toggle('hidden');
+  });
+});
+</script>
+
+</div>
+
+
+<div class="app-screen" id="screen-shopping">
+
+<div class="screen">
+
+  <div class="topbar">
+    <div class="icon-btn" onclick="showScreen('wardrobe')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6"></path>
+      </svg>
+    </div>
+    <h1>مساعد التسوق</h1>
+  </div>
+
+  <div class="intro">
+    <p>صوّر كل قطعة تفكر تشتريها بالمحل، وخلّنا نقول لك وش أحسن تركيبة بينهم</p>
+  </div>
+
+  <div class="section-label">القطع اللي صورتها (4)</div>
+  <div class="captured-strip">
+    <div class="cap-thumb"><svg viewBox="0 0 24 24"><path d="M8.5 3L4 6.5 5.8 10 8 8.3V21h8V8.3l2.2 1.7L20 6.5 15.5 3 12.7 5h-1.4z" fill="#FAFAF7" stroke="#B8B29E" stroke-width="0.6"/></svg></div>
+    <div class="cap-thumb"><svg viewBox="0 0 24 24"><path d="M6.5 3h11l1 18h-5l-.8-9-.7 9h-5z" fill="#33507A"/><path d="M6.5 3h11l.3 4h-11.6z" fill="#28405F"/></svg></div>
+    <div class="cap-thumb"><svg viewBox="0 0 24 24"><path d="M4 14.5A8 8 0 0 1 20 14.5z" fill="#1C1A16"/><rect x="2.5" y="13.5" width="8.5" height="2.2" rx="1.1" fill="#1C1A16"/></svg></div>
+    <div class="cap-thumb"><svg viewBox="0 0 24 24"><path d="M4 20h16l-1-9H5z" fill="#EDEDED" stroke="#C9C9C9" stroke-width="0.4"/><path d="M4 20h16l.4 2H3.6z" fill="#D8D8D8"/></svg></div>
+    <div class="add-thumb" onclick="alert('كاميرا — تصوير قطعة إضافية')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div class="best-card">
+    <div class="best-badge">الأفضل</div>
+    <div class="mannequin-wrap">
+      <svg viewBox="0 0 380 470" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="190" cy="70" r="36" fill="#C9BBA0" stroke="#B3A98C" stroke-width="0.5"/>
+        <rect x="172" y="100" width="36" height="24" rx="4" fill="#C9BBA0"/>
+        <path d="M110,124 L270,124 C295,175 295,215 255,275 L125,275 C85,215 85,175 110,124 Z" fill="#FAFAF7" stroke="#B8B29E" stroke-width="0.5"/>
+        <path d="M100,128 L70,136 L62,232 L92,232 L108,140 Z" fill="#33507A"/>
+        <rect x="66" y="228" width="28" height="32" rx="12" fill="#C9BBA0"/>
+        <path d="M280,128 L310,136 L318,232 L288,232 L272,140 Z" fill="#33507A"/>
+        <rect x="286" y="228" width="28" height="32" rx="12" fill="#C9BBA0"/>
+        <path d="M105,128 C78,175 78,222 112,276 L146,272 C116,222 116,175 138,132 Z" fill="#33507A"/>
+        <path d="M275,128 C302,175 302,222 268,276 L234,272 C264,222 264,175 242,132 Z" fill="#33507A"/>
+        <path d="M158,109 L184,124 L150,133 Z" fill="#28405F"/>
+        <path d="M222,109 L196,124 L230,133 Z" fill="#28405F"/>
+        <path d="M125,275 L178,275 L170,420 L140,420 Z" fill="#33507A"/>
+        <path d="M255,275 L202,275 L210,420 L240,420 Z" fill="#33507A"/>
+        <ellipse cx="153" cy="430" rx="30" ry="13" fill="#EDEDED" stroke="#C9C9C9" stroke-width="0.5"/>
+        <ellipse cx="227" cy="430" rx="30" ry="13" fill="#EDEDED" stroke="#C9C9C9" stroke-width="0.5"/>
+        <ellipse cx="190" cy="52" rx="44" ry="30" fill="#1C1A16"/>
+        <path d="M148,55 A42,30 0 0 0 232,55 L232,60 A42,30 0 0 1 148,60 Z" fill="#1C1A16"/>
+        <rect x="140" y="56" width="35" height="9" rx="4.5" fill="#1C1A16"/>
+      </svg>
+    </div>
+    <h2>تيشيرت أبيض + جينز أزرق + كاب أسود</h2>
+    <p>تركيبة متوازنة وسهلة، تعطيك طلعة ستريت وير بسيطة بدون ما تكون مبالغ فيها</p>
+  </div>
+
+  <div class="section-label">بدائل ثانية</div>
+  <div class="alt-scroll">
+    <div class="alt-card">
+      <div class="alt-items">
+        <svg viewBox="0 0 140 200" width="64" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="70" cy="26" r="16" fill="#C9BBA0"/>
+          <ellipse cx="70" cy="19" rx="17" ry="12" fill="#1C1A16"/>
+          <rect x="48" y="19" width="26" height="5" rx="2.5" fill="#1C1A16"/>
+          <rect x="64" y="38" width="12" height="10" fill="#C9BBA0"/>
+          <path d="M50 48 L90 48 L94 112 L46 112 Z" fill="#E4DCC6" stroke="#B8B29E" stroke-width="1"/>
+          <rect x="46" y="112" width="48" height="68" fill="#E4DCC6"/>
+          <ellipse cx="58" cy="184" rx="12" ry="5" fill="#EDEDED" stroke="#C9C9C9" stroke-width="1"/>
+          <ellipse cx="82" cy="184" rx="12" ry="5" fill="#EDEDED" stroke="#C9C9C9" stroke-width="1"/>
+        </svg>
+      </div>
+      <p>كاب + سنيكرز — لو بتلبسهم مع شي عندك بالبيت</p>
+    </div>
+    <div class="alt-card">
+      <div class="alt-items">
+        <svg viewBox="0 0 140 200" width="64" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="70" cy="26" r="16" fill="#C9BBA0"/>
+          <rect x="64" y="38" width="12" height="10" fill="#C9BBA0"/>
+          <path d="M50 48 L90 48 L94 112 L46 112 Z" fill="#E4DCC6" stroke="#B8B29E" stroke-width="1"/>
+          <path d="M46 112 L68 112 L66 180 L50 180 Z" fill="#33507A"/>
+          <path d="M94 112 L72 112 L74 180 L90 180 Z" fill="#33507A"/>
+          <ellipse cx="58" cy="184" rx="12" ry="5" fill="#EDEDED" stroke="#C9C9C9" stroke-width="1"/>
+          <ellipse cx="82" cy="184" rx="12" ry="5" fill="#EDEDED" stroke="#C9C9C9" stroke-width="1"/>
+        </svg>
+      </div>
+      <p>جينز + سنيكرز — ستايل أهدى، بدون كاب</p>
+    </div>
+  </div>
+
+  <button class="btn-more">صوّر قطعة ثانية</button>
+
+</div>
+
+</div>
+
+
+<div class="app-screen" id="screen-account">
+
+<div class="screen">
+
+  <h1>حسابي</h1>
+
+  <div class="profile-card">
+    <div class="avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path>
+      </svg>
+    </div>
+    <div class="profile-info">
+      <h2>عبدالله</h2>
+      <p>+966 5X XXX XXXX</p>
+    </div>
+  </div>
+
+  <div class="section-title">المقاسات والتفضيلات</div>
+  <div class="list">
+    <div class="row">
+      <div class="row-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"></path></svg>
+      </div>
+      <div class="row-body">
+        <div class="label">المقاسات</div>
+        <div class="value">علوي M · سفلي M · حذاء 42</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+    </div>
+    <div class="row">
+      <div class="row-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg>
+      </div>
+      <div class="row-body">
+        <div class="label">الجنس</div>
+        <div class="value">رجالي</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+    </div>
+    <div class="row">
+      <div class="row-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+      </div>
+      <div class="row-body">
+        <div class="label">الدولة</div>
+        <div class="value">السعودية</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+    </div>
+  </div>
+
+  <div class="section-title">التطبيق</div>
+  <div class="list">
+    <div class="row">
+      <div class="row-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+      </div>
+      <div class="row-body">
+        <div class="label">الإشعارات</div>
+      </div>
+      <div class="toggle on" id="notifToggle"><div class="knob"></div></div>
+    </div>
+    <div class="row">
+      <div class="row-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2-3 4"></path><path d="M12 17h.01"></path></svg>
+      </div>
+      <div class="row-body">
+        <div class="label">المساعدة والدعم</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+    </div>
+    <div class="row">
+      <div class="row-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"></path><path d="M12 16v-4M12 8h.01"></path></svg>
+      </div>
+      <div class="row-body">
+        <div class="label">عن التطبيق</div>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+    </div>
+  </div>
+
+  <div class="list">
+    <div class="row danger" onclick="showScreen('login')">
+      <div class="row-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg>
+      </div>
+      <div class="row-body">
+        <div class="label">تسجيل الخروج</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item" onclick="showScreen('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+    </svg>
+    الرئيسية
+  </div>
+  <div class="nav-item" onclick="showScreen('wardrobe')">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 8h16l-1.5 13a2 2 0 0 1-2 2H7.5a2 2 0 0 1-2-2z"></path>
+      <path d="M6 2l1.5 4h9L18 2"></path>
+    </svg>
+    خزانتي
+  </div>
+  <div class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"></circle>
+      <path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path>
+    </svg>
+    حسابي
+  </div>
+</div>
+
+<script>
+document.getElementById('notifToggle').addEventListener('click', function(){
+  this.classList.toggle('on');
+});
+</script>
+
+</div>
+
+
+<script>
+function showScreen(id){
+  document.querySelectorAll('.app-screen').forEach(el => el.classList.remove('active-screen'));
+  const target = document.getElementById('screen-' + id);
+  if (target) target.classList.add('active-screen');
+  window.scrollTo(0,0);
+}
+showScreen('login');
+</script>
+
+</body>
+</html>
