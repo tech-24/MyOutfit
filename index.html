@@ -1589,6 +1589,7 @@
 
 .app-screen{ display:none; }
 .app-screen.active-screen{ display:block; }
+body{ zoom: 1.12; }
 
 </style>
 </head>
@@ -1608,8 +1609,18 @@
     <input class="text-input" id="emailInput" type="email" placeholder="example@email.com" style="width:100%">
   </div>
 
-  <button class="btn-primary" id="sendCodeBtn">إرسال رمز التحقق</button>
-  <p id="loginStatus" style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:-16px; margin-bottom:20px;"></p>
+  <div class="field">
+    <label>كلمة السر</label>
+    <input class="text-input" id="passwordInput" type="password" placeholder="********" style="width:100%">
+  </div>
+
+  <button class="btn-primary" id="loginBtn">تسجيل الدخول</button>
+
+  <p style="text-align:center; margin-top:14px;">
+    <a href="#" id="forgotLink" style="color:var(--text-muted); font-size:12px; text-decoration:none;">نسيت كلمة السر؟</a>
+  </p>
+
+  <p id="loginStatus" style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:6px; margin-bottom:20px;"></p>
 
   <div class="divider">
     <div class="line"></div>
@@ -1617,16 +1628,9 @@
     <div class="line"></div>
   </div>
 
-  <div class="social-row">
-    <div class="social-btn">
-      <svg viewBox="0 0 24 24"><path fill="#FFFFFF" d="M12 11.5v2.9h5.2c-.2 1.4-1.6 4.1-5.2 4.1-3.1 0-5.7-2.6-5.7-5.8s2.6-5.8 5.7-5.8c1.8 0 3 .8 3.6 1.4l2.5-2.4C16.6 4.4 14.5 3.5 12 3.5 6.9 3.5 2.8 7.6 2.8 12.7S6.9 21.9 12 21.9c6.2 0 9.4-4.3 9.4-9.4 0-.6 0-1.1-.1-1.6H12z"/></svg>
-      المتابعة بحساب Google
-    </div>
-    <div class="social-btn">
-      <svg viewBox="0 0 24 24"><path fill="#FFFFFF" d="M16.7 1.3c-1.1.1-2.4.8-3.1 1.7-.7.8-1.3 2-1.1 3.2 1.2.1 2.4-.6 3.1-1.5.7-.8 1.2-2 1.1-3.4zM20 17.2c-.5 1.2-.8 1.7-1.5 2.8-.9 1.5-2.2 3.3-3.8 3.3-1.4 0-1.8-.9-3.7-.9-1.9 0-2.4.9-3.8.9-1.6 0-2.8-1.6-3.7-3.1-2.5-4-2.8-8.6-1.2-11 1.1-1.7 2.9-2.7 4.6-2.7 1.7 0 2.8 1 4.2 1s2.3-1 4.2-1c1.4 0 2.9.7 4 2-3.5 1.9-2.9 6.8.7 8.7z"/></svg>
-      المتابعة بحساب Apple
-    </div>
-  </div>
+  <p style="text-align:center;">
+    <button id="signupBtn" style="background:none; border:none; color:var(--gold); font-size:13px; font-weight:700; font-family:'Tajawal',sans-serif; cursor:pointer; padding:8px 16px;">إنشاء حساب جديد</button>
+  </p>
 
   <div class="footer-note">
     بالمتابعة، أنت توافق على <a href="#">شروط الاستخدام</a> و<a href="#">سياسة الخصوصية</a>
@@ -2619,37 +2623,65 @@ const SUPABASE_ANON_KEY = 'sb_publishable_ZEx546yj85UcoELWOAde3Q_Vx2wsaFI';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ===== Login logic =====
-const sendCodeBtn = document.getElementById('sendCodeBtn');
+const loginBtn = document.getElementById('loginBtn');
+const signupBtn = document.getElementById('signupBtn');
 const emailInput = document.getElementById('emailInput');
+const passwordInput = document.getElementById('passwordInput');
 const loginStatus = document.getElementById('loginStatus');
 
-sendCodeBtn.addEventListener('click', async () => {
+function setStatus(msg, isError){
+  loginStatus.textContent = msg;
+  loginStatus.style.color = isError ? '#C9524A' : '#C9A227';
+}
+
+function validateFields(){
   const email = emailInput.value.trim();
-  if (!email) {
-    loginStatus.textContent = 'اكتب إيميلك أول';
-    loginStatus.style.color = '#C9524A';
-    return;
+  const password = passwordInput.value;
+  if (!email || !password) {
+    setStatus('عبّي الإيميل وكلمة السر أول', true);
+    return null;
   }
-  sendCodeBtn.disabled = true;
-  sendCodeBtn.textContent = 'جاري الإرسال...';
-  const { error } = await supabaseClient.auth.signInWithOtp({
-    email: email,
-    options: { emailRedirectTo: window.location.href }
-  });
-  sendCodeBtn.disabled = false;
-  sendCodeBtn.textContent = 'إرسال رمز التحقق';
+  return { email, password };
+}
+
+loginBtn.addEventListener('click', async () => {
+  const fields = validateFields();
+  if (!fields) return;
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'جاري الدخول...';
+  const { error } = await supabaseClient.auth.signInWithPassword(fields);
+  loginBtn.disabled = false;
+  loginBtn.textContent = 'تسجيل الدخول';
   if (error) {
-    loginStatus.textContent = 'صار خطأ: ' + error.message;
-    loginStatus.style.color = '#C9524A';
+    setStatus('صار خطأ: ' + error.message, true);
   } else {
-    loginStatus.textContent = 'تفقّد بريدك الإلكتروني واضغط على الرابط اللي أرسلناه لك';
-    loginStatus.style.color = '#C9A227';
+    setStatus('تم تسجيل الدخول', false);
+    showScreen('home');
   }
 });
 
-// If the user already has a session (e.g. came back via the email link), skip login
+signupBtn.addEventListener('click', async () => {
+  const fields = validateFields();
+  if (!fields) return;
+  signupBtn.disabled = true;
+  signupBtn.textContent = 'جاري إنشاء الحساب...';
+  const { error } = await supabaseClient.auth.signUp({
+    email: fields.email,
+    password: fields.password,
+    options: { emailRedirectTo: window.location.href }
+  });
+  signupBtn.disabled = false;
+  signupBtn.textContent = 'إنشاء حساب جديد';
+  if (error) {
+    setStatus('صار خطأ: ' + error.message, true);
+  } else {
+    setStatus('تم إرسال رابط تفعيل لبريدك — افتحه لتفعيل حسابك، وبعدها سجّل دخولك', false);
+  }
+});
+
+// If the user already has a session (e.g. came back via the email verification link), skip login
 supabaseClient.auth.onAuthStateChange((event, session) => {
-  if (session) {
+  if (session && event === 'SIGNED_IN') {
     showScreen('onboarding');
   }
 });
